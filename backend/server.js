@@ -61,6 +61,9 @@ app.get("/screams", async (req, res) => {
 app.post("/screams", async (req, res) => {
 
   const { text, user } = req.body
+  if (!text || text.trim() === "") {
+    return res.status(400).json({ message: "Text is required to create a scream" });
+  }
 
   const scream = new Scream({ text, user })
 

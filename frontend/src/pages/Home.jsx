@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Input } from "../components/Input";
 
 
 
@@ -24,13 +25,12 @@ export const Home = () => {
   return (
     <div style={{ height: "100%", backgroundColor: "red" }}>
       <h1>Welcome to scream your heart out</h1>
- 
         {
           screamList.map((scream, index) => (
             <li key={index}>{scream.text}</li>
           ))
         }
- 
+      <Input />
     </div>
   );
 }
