@@ -1,8 +1,14 @@
-export const App = () => {
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { SignIn } from './pages/SignIn';
 
+export const App = () => {
   return (
-    <>
-      <h1>Welcome to Final Project!</h1>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/signin' element={<SignIn />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
