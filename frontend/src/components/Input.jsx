@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Input = () => {
+export const Input = ({ onScreamPosted }) => {
   const [scream, setScream] = useState("");
 
   const handleSubmit = (e) => {
@@ -16,6 +16,7 @@ export const Input = () => {
       .then((data) => {
         console.log('Success:', data);
         setScream(""); 
+				onScreamPosted();
       })
       .catch((error) => {
         console.error('Error:', error);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../components/Input";
+import { Text } from "../components/Text";
 
 
 
@@ -27,10 +28,11 @@ export const Home = () => {
       <h1>Welcome to scream your heart out</h1>
         {
           screamList.map((scream, index) => (
-            <li key={index}>{scream.text}</li>
+            <Text key={index} text={scream.text} index={index}/>
           ))
         }
-      <Input />
+        <Input onScreamPosted={fetchScreams} />
+    
     </div>
   );
 }

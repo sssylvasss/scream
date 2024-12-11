@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/screams", async (req, res) => {
-  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).exec()
+  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).exec()      
   res.json(screams)
 });
 
