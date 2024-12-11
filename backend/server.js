@@ -76,7 +76,7 @@ app.post("/screams", async (req, res) => {
 })
 //signup
 //login
-//post a scream
+
 
 
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StyledBtn, StyledForm, StyledInput } from "../style/GlobalStylComponents";
 
 export const Input = ({ onScreamPosted }) => {
   const [scream, setScream] = useState("");
@@ -24,18 +25,19 @@ export const Input = ({ onScreamPosted }) => {
   };
 
   return (
-    <div style={{ height: "100%", backgroundColor: "red" }}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter your scream"
-          value={scream}
-          onChange={(e) => setScream(e.target.value)}
-          required
-        />
-	
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+		
+				<StyledForm onSubmit={handleSubmit}>
+					<StyledInput
+						type="text"
+						maxLength={140}
+						placeholder="Enter your scream"
+						value={scream}
+						onChange={(e) => setScream(e.target.value)}
+						required
+					/>
+		
+					<StyledBtn type="submit">Scream</StyledBtn>
+				</StyledForm>
+		
   );
 };

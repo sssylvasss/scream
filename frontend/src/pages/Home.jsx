@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../components/Input";
 import { Text } from "../components/Text";
+import { InnerContainer, MainContainer } from "../style/GlobalStylComponents";
 
 
 
@@ -24,15 +25,17 @@ export const Home = () => {
   }, [])
 
   return (
-    <div style={{ height: "100%", backgroundColor: "red" }}>
-      <h1>Welcome to scream your heart out</h1>
+    <MainContainer>
+      <InnerContainer>
+
         {
           screamList.map((scream, index) => (
-            <Text key={index} text={scream.text} index={index}/>
+            <Text key={index} text={scream.text} index={index} />
           ))
         }
+        </InnerContainer>
         <Input onScreamPosted={fetchScreams} />
     
-    </div>
+    </MainContainer>
   );
 }
