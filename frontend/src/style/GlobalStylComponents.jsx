@@ -1,5 +1,35 @@
 import styled from 'styled-components';
 
+export const StyledHeaderText = styled.h1`
+    font-size: 20px;
+    font-family: "Courier New", Courier, monospace;
+
+    @media (min-width: 768px) {
+            font-size: 30px;
+        }
+        @media (min-width: 1400px) {
+            font-size: 50px;
+        }
+`;
+export const SubHeadTitle = styled.h2`
+    font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+    @media (min-width: 768px) {
+            font-size: 20px;
+        }
+        @media (min-width: 1400px) {
+    
+        }
+`;
+
+export const InnerLoginDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    height: 100vh;
+    flex-direction: column;
+`;
 
 export const MainContainer = styled.div`
     position: relative;
@@ -23,8 +53,8 @@ export const StyledInput = styled.input`
     border: 2px solid white;
     border-radius: 8px;    
     @media (min-width: 768px) {
-    padding-left: 5px;
-    width: 300px;
+        padding-left: 5px;
+        width: 300px;
             height: 50px;
             font-size: 20px;
         }
