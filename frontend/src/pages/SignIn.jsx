@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
-import { InnerLoginDiv, MainContainer, StyledHeaderText, SubHeadTitle } from '../style/GlobalStylComponents';
+import { InnerLoginDiv, MainContainer, StyledA, StyledBtn, StyledHeaderText, StyledInputSignUp, StyledSignUpform, SubHeadTitle } from '../style/GlobalStylComponents';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { login } = useAuth(); // Access login function from context
+  const { login } = useAuth(); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -27,8 +27,8 @@ export const SignIn = () => {
       }
 
       const data = await response.json();
-      login(data); // Save user in context
-      navigate('/'); // Redirect to home page
+      login(data); 
+      navigate('/'); 
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -37,27 +37,30 @@ export const SignIn = () => {
   return (
     <MainContainer>
       <InnerLoginDiv>
-      <StyledHeaderText>Welcome to Scream Room! </StyledHeaderText>
-      <SubHeadTitle>Login and scream your heart out</SubHeadTitle>    
-      <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Sign In</button>
-      {errorMessage && <p>{errorMessage}</p>}
-    </form>
-    </InnerLoginDiv>
+        <StyledHeaderText>Welcome to Scream Room! </StyledHeaderText>
+        <SubHeadTitle>Login and scream your heart out</SubHeadTitle>    
+        <StyledSignUpform onSubmit={handleSubmit}>
+          <StyledInputSignUp
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <StyledInputSignUp
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <StyledBtn type="submit" width="100%">Sign In</StyledBtn>
+          <SubHeadTitle>
+            <StyledA href="/signup">Create account</StyledA>
+          </SubHeadTitle> 
+          {errorMessage && <p>{errorMessage}</p>}
+        </StyledSignUpform>
+      </InnerLoginDiv>
     </MainContainer>
   );
 };

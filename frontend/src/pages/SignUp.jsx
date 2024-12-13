@@ -1,5 +1,5 @@
 import React, {useState} from "react";  
-import { InnerLoginDiv, MainContainer, StyledBtn, StyledInput, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
+import { InnerLoginDiv, MainContainer, StyledA, StyledBtn, StyledInputSignUp, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
 
 export const SignUp = () => {
 const [email, setEmail] = useState("");
@@ -20,30 +20,33 @@ const handleSubmit = (e) => {
 }
 
     return (
-        <MainContainer>
-            <InnerLoginDiv>
-               
-                <SubHeadTitle>Create an account at Scream Room</SubHeadTitle>
-               <StyledSignUpform onSubmit={handleSubmit}>
-                <StyledInput
-                placeholder="Name" onChange={(e) => setName(e.target.value)}
-                required margin="8px"
-               />
-                <StyledInput type="email"
-                placeholder="Email" onChange={(e) => setEmail(e.target.value)}
-                required margin="8px"
-                />
-                <StyledInput placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                type="password"
-                margin="8px 0px 8px 0px"
-                />
-                <StyledBtn type="submit" width="100%">Save</StyledBtn>
-               </StyledSignUpform>
-
-            </InnerLoginDiv>
-        </MainContainer>
-
+      <MainContainer>
+        <InnerLoginDiv>
+          <SubHeadTitle>Create an account at Scream Room</SubHeadTitle>
+          <StyledSignUpform onSubmit={handleSubmit}>
+            <StyledInputSignUp
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <StyledInputSignUp
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <StyledInputSignUp
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              type="password"
+            />
+            <StyledBtn type="submit" width="100%">Save</StyledBtn>
+            <SubHeadTitle>
+              <StyledA href="/signin">Already have an account?</StyledA>
+            </SubHeadTitle>
+          </StyledSignUpform>
+        </InnerLoginDiv>
+      </MainContainer>
     );
 };

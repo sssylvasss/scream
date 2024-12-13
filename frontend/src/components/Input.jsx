@@ -36,7 +36,7 @@ export const Input = ({ onScreamPosted }) => {
 						required
 					/>
 		
-					<StyledBtn type="submit">Scream</StyledBtn>
+					<StyledBtn type="submit" margin="0 0 0 8px">Scream</StyledBtn>
 				</StyledForm>
 		
   );

@@ -3,16 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { Input } from "../components/Input";
 import { Text } from "../components/Text";
-import { InnerContainer, MainContainer } from "../style/GlobalStylComponents";
+import { InnerContainer, MainContainer, ModalBtn, ModalText } from "../style/GlobalStylComponents";
+import { FalafelMenu } from "../components/FalafelMenu";
+import { Modal } from "../components/Modal";
 
 export const Home = () => {
   const [screamList, setScreamList] = useState([]);
-  const { user } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-  // Redirect if not logged in
+
   useEffect(() => {
-    console.log("User in Home:", user); // Debug log
+    console.log("User in Home:", user);
     if (!user) {
       console.log("Redirecting to SignIn...");
       navigate("/signin");
@@ -23,7 +26,7 @@ export const Home = () => {
     try {
       const response = await fetch("http://localhost:8080/screams", {
         headers: {
-          Authorization: user.accessToken, // Pass the accessToken
+          Authorization: user.accessToken,
         },
       });
   
@@ -31,30 +34,51 @@ export const Home = () => {
         throw new Error("Failed to fetch screams");
       }
       const data = await response.json();
-      console.log("Fetched screams:", data); // Debug log
+      console.log("Fetched screams:", data);
       setScreamList(data);
     } catch (error) {
       console.error("Error fetching screams:", error.message);
     }
   };
 
-  // Fetch screams if user is logged in
+ 
   useEffect(() => {
     if (user) {
       fetchScreams();
     } else {
       console.log("User is not authenticated. Redirecting...");
-      navigate("/signin"); // Redirect to login if not authenticated
+      navigate("/signin"); 
     }
   }, [user]);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout(); // Use logout function from AuthProvider
+    navigate("/signin");
+  };
   return (
     <MainContainer>
+      <FalafelMenu openModal={openModal}/>
       <InnerContainer>
         {screamList.map((scream, index) => (
           <Text key={index} text={scream.text} index={index} />
         ))}
       </InnerContainer>
       <Input onScreamPosted={fetchScreams} />
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <ModalText>Are you done screaming?</ModalText>
+          <ModalBtn onClick={handleLogout}>Logout</ModalBtn>
+          <ModalBtn onClick={closeModal}>Cancel</ModalBtn>
+        </Modal>
+      )}
     </MainContainer>
   );
 };

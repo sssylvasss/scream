@@ -49,21 +49,31 @@ export const InnerContainer = styled.div`
 
 
 export const StyledInput = styled.input`
+  height: 40px;
+  width: 200px;
+  border: 2px solid white;
+  border-radius: 8px; 
+  margin: ${(props) => props.margin || "0px"};   
+  @media (min-width: 768px) {
+    padding-left: 5px;
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+`;
+
+export const StyledInputSignUp = styled.input`
     height: 40px;
-    width: 200px;
     border: 2px solid white;
     border-radius: 8px; 
-    margin: ${(props) => props.margin || "0px"};   
+    width: 100%;
+    margin: 8px;
     @media (min-width: 768px) {
-        padding-left: 5px;
-        width: 300px;
             height: 50px;
             font-size: 20px;
         }
-        @media (min-width: 1400px) {
-            height: 60px;
-            font-size: 22px;
-        }
+   
 `;
 export const StyledForm = styled.form`
     position: absolute;
@@ -98,10 +108,7 @@ export const StyledBtn = styled.button`
             margin-left: ${(props) => props.margin || "0px"};
             font-size: 20px;
         }
-        @media (min-width: 1400px) {
-            height: 60px;
-            font-size: 22px;
-        }
+
 
 `;
 
@@ -111,3 +118,70 @@ flex-direction: column;
 align-items: center;
 `;
 
+
+export const StyledA = styled.a`
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    &:hover {
+        font-weight: 500;
+    }
+    @media (min-width: 768px) {
+        font-size: 20px;
+    }
+    @media (min-width: 1400px) {
+        font-size: 24px;
+    }
+`;
+
+export const MenueDiv = styled.div`
+z-index: 1000;
+position: absolute;
+top: 20px;
+right: 20px;
+`;
+
+export const ModalMainDiv = styled.div`
+     position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`; 
+
+export const ContentDiv = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+`;
+
+export const ModalText = styled.p`
+font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+    @media (min-width: 768px) {
+            font-size: 20px;
+        }
+
+`;
+
+export const ModalBtn = styled.button`
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 8px;
+  color: black;
+  background: transparent;
+  font-size: 16px;
+  width: 100px;
+  margin: 8px;
+  @media (min-width: 768px) {
+    height: 50px;
+    font-size: 20px;
+  }
+`;

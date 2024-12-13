@@ -36,8 +36,8 @@ const FloatingText = styled.div`
 export const Text = ({ text, index }) => {
 
   const fontSize = 60 - (index * 2);
-// let fontColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink"];
-// const randomColor = fontColors[Math.floor(Math.random() * fontColors.length)];
+let fontColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink"];
+const randomColor = fontColors[Math.floor(Math.random() * fontColors.length)];
 
   const randomStartX = Math.random() * 80; // Start position (left) between 0-80% of screen
   const randomStartY = Math.random() * 80; // Start position (top) between 0-80% of screen
@@ -45,7 +45,7 @@ export const Text = ({ text, index }) => {
 
   return (
     <FloatingText
-      // color={randomColor}
+      color={randomColor}
       fontSize={`${fontSize}px`}
       startX={randomStartX}
       startY={randomStartY}
