@@ -14,11 +14,11 @@ const Scream = mongoose.model("Scream", {
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User"
-  // }
 })
 
 const User = mongoose.model("User", {
@@ -39,6 +39,17 @@ const User = mongoose.model("User", {
   },
 });
 
+const authenticateUser = async (req, res, next) => {
+  const token = req.header("Authorization");
+  const user = await User.findOne({ accessToken: token });
+  if (user) {
+    req.user = user;
+    next();
+  } else {
+    res.status(403).json({ message: "You need to be logged in to see this" }); 
+  }
+};
+
 const port = process.env.PORT || 8080
 const app = express()
 
@@ -47,14 +58,13 @@ app.use(express.json())
 
 
 app.get("/", (req, res) => {
-  res.send("Hello Technigo!")
+  res.send("Hello world")
 
-  //return all screams
 })
 
-app.get("/screams", async (req, res) => {
-  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).exec()      
-  res.json(screams)
+app.get("/screams", authenticateUser, async (req, res) => {
+  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).exec();
+  res.json(screams);
 });
 
 app.post("/signin", async (req, res) => {
@@ -93,14 +103,10 @@ app.post("/screams", async (req, res) => {
     res.status(400).json({ message: "Could not save scream to the database", error: err.errors })
   }
 })
-//signup
-//login
-
-
-
 
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)
 })
+

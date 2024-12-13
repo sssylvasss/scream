@@ -1,5 +1,5 @@
 import React, {useState} from "react";  
-import { InnerLoginDiv, MainContainer, StyledHeaderText, SubHeadTitle } from "../style/GlobalStylComponents";
+import { InnerLoginDiv, MainContainer, StyledBtn, StyledInput, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
 
 export const SignUp = () => {
 const [email, setEmail] = useState("");
@@ -24,21 +24,23 @@ const handleSubmit = (e) => {
             <InnerLoginDiv>
                
                 <SubHeadTitle>Create an account at Scream Room</SubHeadTitle>
-               <form onSubmit={handleSubmit}>
-                <input
+               <StyledSignUpform onSubmit={handleSubmit}>
+                <StyledInput
                 placeholder="Name" onChange={(e) => setName(e.target.value)}
-                required
-                ></input>
-                <input type="email"
+                required margin="8px"
+               />
+                <StyledInput type="email"
                 placeholder="Email" onChange={(e) => setEmail(e.target.value)}
-                required
-                ></input>
-                <input placeholder="Password"
+                required margin="8px"
+                />
+                <StyledInput placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                ></input>
-                <button type="submit">Save</button>
-               </form>
+                type="password"
+                margin="8px 0px 8px 0px"
+                />
+                <StyledBtn type="submit" width="100%">Save</StyledBtn>
+               </StyledSignUpform>
 
             </InnerLoginDiv>
         </MainContainer>

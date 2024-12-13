@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledHeaderText = styled.h1`
     font-size: 20px;
     font-family: "Courier New", Courier, monospace;
-
+    color: white;
     @media (min-width: 768px) {
             font-size: 30px;
         }
@@ -14,6 +14,7 @@ export const StyledHeaderText = styled.h1`
 export const SubHeadTitle = styled.h2`
     font-size: 16px;
     font-family: "Courier New", Courier, monospace;
+    color: white;
     @media (min-width: 768px) {
             font-size: 20px;
         }
@@ -51,7 +52,8 @@ export const StyledInput = styled.input`
     height: 40px;
     width: 200px;
     border: 2px solid white;
-    border-radius: 8px;    
+    border-radius: 8px; 
+    margin: ${(props) => props.margin || "0px"};   
     @media (min-width: 768px) {
         padding-left: 5px;
         width: 300px;
@@ -88,10 +90,12 @@ export const StyledBtn = styled.button`
     color: white;
     background: transparent;
     font-size: 16px;
+    width: ${(props) => props.width|| "auto"};  
+    margin: ${(props) => props.margin || "0px"};
         @media (min-width: 768px) {
             height: 50px;
             padding: 0 30px;
-            margin-left: 20px;
+            margin-left: ${(props) => props.margin || "0px"};
             font-size: 20px;
         }
         @media (min-width: 1400px) {
@@ -100,3 +104,10 @@ export const StyledBtn = styled.button`
         }
 
 `;
+
+export const StyledSignUpform = styled.form`
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
+
