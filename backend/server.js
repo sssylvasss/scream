@@ -25,8 +25,7 @@ const User = mongoose.model("User", {
   name: {
     type: String,
     unique: true,
-  },
-  email: {
+  },  email: {
     type: String,
     unique: true,
   },
@@ -56,6 +55,26 @@ app.get("/", (req, res) => {
 app.get("/screams", async (req, res) => {
   const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).exec()      
   res.json(screams)
+});
+
+app.post("/signin", async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user && bcrypt.compareSync(req.body.password, user.password)) {
+    res.json({ userId: user._id, accessToken: user.accessToken });
+  } else {
+    res.status(400).json({ message: "Invalid email or password" });
+  }});
+
+app.post("/signup", async (req, res) => {
+  try {
+    const {name, email, password } = req.body;
+    const user = new User({name, email, password: bcrypt.hashSync(password) });
+    user.save();
+    res.status(201).json({ name: user.name, userId: user._id, accessToken: user.accessToken });
+  } catch (err) {
+    res.status(400).json({ message: "Could not create user", error: err.errors });
+  }
+
 });
 
 app.post("/screams", async (req, res) => {

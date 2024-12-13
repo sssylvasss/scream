@@ -1,26 +1,20 @@
 import React, {useState} from "react";  
 import { InnerLoginDiv, MainContainer, StyledHeaderText, SubHeadTitle } from "../style/GlobalStylComponents";
 
-export const SignIn = () => {
+export const SignUp = () => {
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
+const [name, setName] = useState("");
 
 const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8080/signin', {
+    fetch('http://localhost:8080/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({name, email, password }),
     })
-    .then((response) => response.json())
-    .then((data) => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
     setEmail("");
     setPassword("");
 }
@@ -28,9 +22,13 @@ const handleSubmit = (e) => {
     return (
         <MainContainer>
             <InnerLoginDiv>
-                <StyledHeaderText>Welcome to Scream Room! </StyledHeaderText>
-                <SubHeadTitle>Login and scream your heart out</SubHeadTitle>
+               
+                <SubHeadTitle>Create an account at Scream Room</SubHeadTitle>
                <form onSubmit={handleSubmit}>
+                <input
+                placeholder="Name" onChange={(e) => setName(e.target.value)}
+                required
+                ></input>
                 <input type="email"
                 placeholder="Email" onChange={(e) => setEmail(e.target.value)}
                 required
@@ -39,7 +37,7 @@ const handleSubmit = (e) => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 ></input>
-                <button type="submit">Sign In</button>
+                <button type="submit">Save</button>
                </form>
 
             </InnerLoginDiv>
