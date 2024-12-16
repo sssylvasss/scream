@@ -41,7 +41,7 @@ export const SignIn = () => {
 
   return (
     <MainContainer>
-      {loading ?  
+      {!loading ?  
         ( <Loader />) : (
       <InnerLoginDiv>
         <StyledHeaderText>Welcome to Scream Room! </StyledHeaderText>

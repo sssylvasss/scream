@@ -85,6 +85,8 @@ export const StyledInput = styled.input`
   width: 200px;
   border: 2px solid white;
   border-radius: 8px; 
+  font-size: 16px;
+  padding-left: 8px;
   margin: ${(props) => props.margin || "0px"};   
   @media (min-width: 768px) {
     padding-left: 5px;
