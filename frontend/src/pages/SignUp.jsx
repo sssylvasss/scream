@@ -1,34 +1,53 @@
-import React, {useState} from "react";  
-import { InnerLoginDiv, MainContainer, StyledBtn, StyledInputSignUp, StyledLink, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
+import React, { useState } from "react";  
+import { 
+  InnerLoginDiv, 
+  MainContainer, 
+  StyledBtn, 
+  StyledHeaderText, 
+  StyledInputSignUp, 
+  StyledLink, 
+  StyledSignUpform, 
+  SubHeadTitle 
+} from "../style/GlobalStylComponents";
 import { Loader } from '../components/loader';
 
 export const SignUp = () => {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [name, setName] = useState("");
-const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
-const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     fetch('http://localhost:8080/signup', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({name, email, password }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password }),
     })
-    setEmail("");
-    setPassword("");
-    setLoading(false);
-}
+    .then(response => response.json())
+    .then(data => {
+      setEmail("");
+      setPassword("");
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      setLoading(false);
+    });
+  }
 
-    return (
-      <MainContainer>
-        {loading ?  
-          ( <Loader />) : (
+  return (
+    <MainContainer>
+      {loading ? (
+        <Loader />
+      ) : (
         <InnerLoginDiv>
-          <SubHeadTitle>Create an account at Scream Room</SubHeadTitle>
+          <img src="/screamLoader.svg" alt="Scream Loader" />
+          <StyledHeaderText>Scream Room</StyledHeaderText>
+          <SubHeadTitle>Create an account</SubHeadTitle>
           <StyledSignUpform onSubmit={handleSubmit}>
             <StyledInputSignUp
               placeholder="Name"
@@ -42,18 +61,21 @@ const handleSubmit = (e) => {
               required
             />
             <StyledInputSignUp
+              type="password"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               required
-              type="password"
+              minLength={5}
+              onInvalid={(e) => e.target.setCustomValidity('Password must be at least 5 characters long')}
+              onInput={(e) => e.target.setCustomValidity('')}
             />
-            <StyledBtn type="submit" width="100%">Save</StyledBtn>
+            <StyledBtn type="submit" width="100%" margin="8px 0 0 0">Save</StyledBtn>
             <SubHeadTitle>
               <StyledLink to="/signin">Already have an account?</StyledLink>
             </SubHeadTitle>
           </StyledSignUpform>
         </InnerLoginDiv>
-        )}
-      </MainContainer>
-    );
+      )}
+    </MainContainer>
+  );
 };

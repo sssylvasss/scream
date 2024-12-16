@@ -41,10 +41,11 @@ export const SignIn = () => {
 
   return (
     <MainContainer>
-      {!loading ?  
+      {loading ?  
         ( <Loader />) : (
       <InnerLoginDiv>
-        <StyledHeaderText>Welcome to Scream Room! </StyledHeaderText>
+        <img src="/screamLoader.svg" alt="Scream Loader" />
+        <StyledHeaderText>Scream Room</StyledHeaderText>
         <SubHeadTitle>Login and scream your heart out</SubHeadTitle>    
         <StyledSignUpform onSubmit={handleSubmit}>
           <StyledInputSignUp
@@ -52,7 +53,7 @@ export const SignIn = () => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            required 
           />
           <StyledInputSignUp
             type="password"
@@ -61,7 +62,7 @@ export const SignIn = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <StyledBtn type="submit" width="100%">Sign In</StyledBtn>
+          <StyledBtn type="submit" margin="8px 0 0 0" width="100%">Sign In</StyledBtn>
           <SubHeadTitle>
             <StyledLink to="/signup">Create account</StyledLink>
           </SubHeadTitle> 

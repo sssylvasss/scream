@@ -22,7 +22,7 @@ const floatAnimation = keyframes`
 
 export const FloatingText = styled.div`
   position: absolute;
- font-size: ${(props) => (props.fontSize ? `${props.fontSize / 2}px` : "16px")};
+  font-size: ${(props) => (props.fontSize ? `${props.fontSize / 1.5}px` : "16px")};
   color: ${(props) => props.color  || "white"};
   font-weight: bold;
   font-family: "Courier New", Courier, monospace;
@@ -106,6 +106,7 @@ export const StyledInputSignUp = styled.input`
   @media (min-width: 768px) {
     height: 50px;
     font-size: 20px;
+    min-width: 350px;
   }
 `;
 
