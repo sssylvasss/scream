@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
-import { InnerLoginDiv, MainContainer, StyledA, StyledBtn, StyledHeaderText, StyledInputSignUp, StyledSignUpform, SubHeadTitle } from '../style/GlobalStylComponents';
+import { InnerLoginDiv, MainContainer, StyledBtn, StyledHeaderText, StyledInputSignUp, StyledLink, StyledSignUpform, SubHeadTitle } from '../style/GlobalStylComponents';
 import { Loader } from '../components/loader';
 
 export const SignIn = () => {
@@ -63,7 +63,7 @@ export const SignIn = () => {
           />
           <StyledBtn type="submit" width="100%">Sign In</StyledBtn>
           <SubHeadTitle>
-            <StyledA href="/signup">Create account</StyledA>
+            <StyledLink to="/signup">Create account</StyledLink>
           </SubHeadTitle> 
           {errorMessage && <p>{errorMessage}</p>}
         </StyledSignUpform>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";  
-import { InnerLoginDiv, MainContainer, StyledA, StyledBtn, StyledInputSignUp, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
+import { InnerLoginDiv, MainContainer, StyledBtn, StyledInputSignUp, StyledLink, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
 import { Loader } from '../components/loader';
 
 export const SignUp = () => {
@@ -49,7 +49,7 @@ const handleSubmit = (e) => {
             />
             <StyledBtn type="submit" width="100%">Save</StyledBtn>
             <SubHeadTitle>
-              <StyledA href="/signin">Already have an account?</StyledA>
+              <StyledLink to="/signin">Already have an account?</StyledLink>
             </SubHeadTitle>
           </StyledSignUpform>
         </InnerLoginDiv>
