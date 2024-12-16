@@ -10,6 +10,19 @@ Replace this readme with your own information about the project. You can include
 - If you had more time, what would be next?
 - How to run the project locally
 
+
+# Postinstall:
+
+Ensures dependencies for both the frontend and backend are installed automatically when you run npm install in the root directory.
+dev:
+
+## Starts both the frontend and backend in development mode:
+Frontend with vite.
+Backend with nodemon.
+start:
+
+Starts the frontend and backend in production mode
+
 ## View it live
 Every project should be deployed somewhere. Be sure to include the link to the deployed project so that the viewer can click around and see what it's all about.
 

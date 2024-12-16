@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const StyledHeaderText = styled.h1`
     font-size: 20px;
@@ -49,17 +49,17 @@ export const InnerContainer = styled.div`
 
 
 export const StyledInput = styled.input`
-  height: 40px;
-  width: 200px;
-  border: 2px solid white;
-  border-radius: 8px; 
-  margin: ${(props) => props.margin || "0px"};   
-  @media (min-width: 768px) {
-    padding-left: 5px;
-    width: 300px;
-    height: 50px;
-    font-size: 20px;
-  }
+    height: 40px;
+    width: 200px;
+    border: 2px solid white;
+    border-radius: 8px; 
+    margin: ${(props) => props.margin || "0px"};   
+    @media (min-width: 768px) {
+        padding-left: 5px;
+        width: 300px;
+        height: 50px;
+        font-size: 20px;
+    }
 
 `;
 
@@ -69,11 +69,11 @@ export const StyledInputSignUp = styled.input`
     border-radius: 8px; 
     width: 100%;
     margin: 8px;
+    min-width: 250px;
     @media (min-width: 768px) {
             height: 50px;
             font-size: 20px;
         }
-   
 `;
 export const StyledForm = styled.form`
     position: absolute;
@@ -184,4 +184,28 @@ export const ModalBtn = styled.button`
     height: 50px;
     font-size: 20px;
   }
+`;
+
+
+//loader
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const ScreamLoader = styled.div`
+  animation: ${spin} 2s linear infinite;
+`;
+
+
+export const LoaderWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3); /* Adjust the opacity as needed */
 `;

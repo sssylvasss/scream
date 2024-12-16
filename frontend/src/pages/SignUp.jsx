@@ -1,13 +1,16 @@
 import React, {useState} from "react";  
 import { InnerLoginDiv, MainContainer, StyledA, StyledBtn, StyledInputSignUp, StyledSignUpform, SubHeadTitle } from "../style/GlobalStylComponents";
+import { Loader } from '../components/loader';
 
 export const SignUp = () => {
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [name, setName] = useState("");
+const [loading, setLoading] = useState(false);
 
 const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     fetch('http://localhost:8080/signup', {
         method: 'POST',
         headers: {
@@ -17,10 +20,13 @@ const handleSubmit = (e) => {
     })
     setEmail("");
     setPassword("");
+    setLoading(false);
 }
 
     return (
       <MainContainer>
+        {loading ?  
+          ( <Loader />) : (
         <InnerLoginDiv>
           <SubHeadTitle>Create an account at Scream Room</SubHeadTitle>
           <StyledSignUpform onSubmit={handleSubmit}>
@@ -47,6 +53,7 @@ const handleSubmit = (e) => {
             </SubHeadTitle>
           </StyledSignUpform>
         </InnerLoginDiv>
+        )}
       </MainContainer>
     );
 };

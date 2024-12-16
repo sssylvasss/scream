@@ -6,10 +6,12 @@ import { Text } from "../components/Text";
 import { InnerContainer, MainContainer, ModalBtn, ModalText } from "../style/GlobalStylComponents";
 import { FalafelMenu } from "../components/FalafelMenu";
 import { Modal } from "../components/Modal";
+import { Loader } from "../components/loader";
 
 export const Home = () => {
   const [screamList, setScreamList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -23,6 +25,7 @@ export const Home = () => {
   }, [user, navigate]);
 
   const fetchScreams = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:8080/screams", {
         headers: {
@@ -36,8 +39,11 @@ export const Home = () => {
       const data = await response.json();
       console.log("Fetched screams:", data);
       setScreamList(data);
+
     } catch (error) {
       console.error("Error fetching screams:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,13 +71,18 @@ export const Home = () => {
   };
   return (
     <MainContainer>
-      <FalafelMenu openModal={openModal}/>
-      <InnerContainer>
-        {screamList.map((scream, index) => (
-          <Text key={index} text={scream.text} index={index} />
-        ))}
-      </InnerContainer>
-      <Input onScreamPosted={fetchScreams} />
+{loading ? ( 
+      <Loader />) : (
+      <>
+        <FalafelMenu openModal={openModal}/>
+        <InnerContainer>
+          {screamList.map((scream, index) => (
+            <Text key={index} text={scream.text} index={index} />
+          ))}
+        </InnerContainer>
+        <Input onScreamPosted={fetchScreams} />
+      </>
+      )}
       {isModalOpen && (
         <Modal onClose={closeModal}>
           <ModalText>Are you done screaming?</ModalText>
