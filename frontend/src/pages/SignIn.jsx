@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
 import { ErrorP, InnerLoginDiv, MainContainer, StyledBtn, StyledHeaderText, StyledInputSignUp, StyledLink, StyledSignUpform, SubHeadTitle } from '../style/GlobalStylComponents';
 import { Loader } from '../components/loader';
+import screamLoader from '../assets/screamLoader.svg';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -48,7 +49,7 @@ export const SignIn = () => {
       {loading ?  
         ( <Loader />) : (
       <InnerLoginDiv>
-        <img src="/screamLoader.svg" alt="Scream Loader" />
+        <img src={screamLoader} alt="Screamer" />
         <StyledHeaderText>Scream Room</StyledHeaderText>
         <SubHeadTitle>Login and scream your heart out</SubHeadTitle>    
         {errorMessage && <ErrorP>{errorMessage}</ErrorP>}
