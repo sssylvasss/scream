@@ -11,6 +11,7 @@ import {
 } from "../style/GlobalStylComponents";
 import { Loader } from '../components/loader';
 import { useNavigate } from "react-router";
+import { useAuth } from "../context/AuthProvider";
 
 export const SignUp = () => {
   const [email, setEmail] = useState("");
