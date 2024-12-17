@@ -6,7 +6,7 @@ import { FloatingText } from "../style/GlobalStylComponents";
 export const Text = ({ text, index }) => {
 
 const fontSize = 70 - (index * 2); 
-let fontColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink"];
+let fontColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "white"];
 const randomColor = fontColors[Math.floor(Math.random() * fontColors.length)];
 
   const randomStartX = Math.random() * 80; // Start position (left) between 0-80% of screen
