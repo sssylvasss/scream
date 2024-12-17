@@ -1,4 +1,4 @@
-const bannedWords = [
+export const bannedWords = [
     "idiot",
     "stupid",
     "moron",
