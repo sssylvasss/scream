@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
-
+import { bannedWords } from "./config/bannedWords.js";
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
 mongoose.connect(mongoUrl);
 mongoose.Promise = Promise;
@@ -112,12 +112,19 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+const containsBannedWords = (text) => {
+  const lowerText = text.toLowerCase();
+  return bannedWords.some((word) => lowerText.includes(word));
+};
+
 app.post("/screams", async (req, res) => {
   const { text, user } = req.body;
   if (!text || text.trim() === "") {
     return res.status(400).json({ message: "Text is required to create a scream" });
   }
-
+  if (containsBannedWords(text)) {
+    return res.status(400).json({ message: "Your message contains inappropriate language." });
+  }
   const scream = new Scream({ text, user });
 
   try {
