@@ -8,14 +8,14 @@ import { FalafelMenu } from "../components/FalafelMenu";
 import { Modal } from "../components/Modal";
 import { Loader } from "../components/loader";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const Home = () => {
   const [screamList, setScreamList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const API_URL = import.meta.env.VITE_API_URL;
-  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
 
   useEffect(() => {
     if (!user) {

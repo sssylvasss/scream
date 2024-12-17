@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { StyledBtn, StyledForm, StyledInput } from "../style/GlobalStylComponents";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const Input = ({ onScreamPosted }) => {
   const [scream, setScream] = useState("");
-  const API_URL = import.meta.env.VITE_API_URL;
-  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
 
   const handleSubmit = (e) => {
     e.preventDefault();

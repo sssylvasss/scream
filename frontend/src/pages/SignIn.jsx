@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
-import { InnerLoginDiv, MainContainer, StyledBtn, StyledHeaderText, StyledInputSignUp, StyledLink, StyledSignUpform, SubHeadTitle } from '../style/GlobalStylComponents';
+import { ErrorP, InnerLoginDiv, MainContainer, StyledBtn, StyledHeaderText, StyledInputSignUp, StyledLink, StyledSignUpform, SubHeadTitle } from '../style/GlobalStylComponents';
 import { Loader } from '../components/loader';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const API_URL = import.meta.env.VITE_API_URL;
-  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
   
   const { login } = useAuth(); 
   const navigate = useNavigate();
@@ -51,6 +51,7 @@ export const SignIn = () => {
         <img src="/screamLoader.svg" alt="Scream Loader" />
         <StyledHeaderText>Scream Room</StyledHeaderText>
         <SubHeadTitle>Login and scream your heart out</SubHeadTitle>    
+        {errorMessage && <ErrorP>{errorMessage}</ErrorP>}
         <StyledSignUpform onSubmit={handleSubmit}>
           <StyledInputSignUp
             type="email"
@@ -70,7 +71,6 @@ export const SignIn = () => {
           <SubHeadTitle>
             <StyledLink to="/signup">Create account</StyledLink>
           </SubHeadTitle> 
-          {errorMessage && <p>{errorMessage}</p>}
         </StyledSignUpform>
       </InnerLoginDiv>
       )}

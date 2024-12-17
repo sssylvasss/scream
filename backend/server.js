@@ -75,17 +75,35 @@ app.post("/signin", async (req, res) => {
     res.status(400).json({ message: "Invalid email or password" });
   }});
 
-app.post("/signup", async (req, res) => {
-  try {
-    const {name, email, password } = req.body;
-    const user = new User({name, email, password: bcrypt.hashSync(password) });
-    user.save();
-    res.status(201).json({ name: user.name, userId: user._id, accessToken: user.accessToken });
-  } catch (err) {
-    res.status(400).json({ message: "Could not create user", error: err.errors });
-  }
-
-});
+  app.post("/signup", async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
+  
+      const existingName = await User.findOne({ name });
+      if (existingName) {
+        return res.status(400).json({ message: "Name already exists" });
+      }
+  
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+  
+      const user = new User({
+        name,
+        email,
+        password: bcrypt.hashSync(password),
+      });
+  
+      await user.save();
+  
+      return res.status(201).json({ message: "Signup successful" });
+    } catch (err) {
+      console.error("Signup error:", err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
 
 app.post("/screams", async (req, res) => {
 

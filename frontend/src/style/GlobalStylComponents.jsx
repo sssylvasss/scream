@@ -235,3 +235,15 @@ export const LoaderWrapper = styled.div`
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
 `;
+
+
+export const ErrorP = styled.p`
+color: red;
+font-size: 20px;
+font-weight: 800;
+font-family: "Courier New", Courier, monospace;
+
+  @media (min-width: 768px) {
+    font-size: 22px;
+  }
+`;
