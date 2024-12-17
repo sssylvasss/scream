@@ -14,8 +14,7 @@ export const Input = ({ onScreamPosted }) => {
       body: JSON.stringify({ text: scream }), 
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
+      .then(() => {
         setScream(""); 
 				onScreamPosted();
       })

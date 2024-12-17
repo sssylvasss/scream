@@ -28,14 +28,14 @@ export const SignUp = () => {
       body: JSON.stringify({ name, email, password }),
     })
     .then(response => response.json())
-    .then(data => {
+    .then(() => {
       setEmail("");
       setPassword("");
       setLoading(false);
     })
     .catch(error => {
       console.error('Error:', error);
-      setLoading(false);
+      setLoading(false)
     });
   }
 

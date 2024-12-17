@@ -19,19 +19,21 @@ export const SignIn = () => {
 
     try {
       const response = await fetch('http://localhost:8080/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
-        throw new Error('Invalid email or password');
+      throw new Error('Invalid email or password');
       }
       const data = await response.json();
       login(data); 
-      navigate('/'); 
+      navigate('/');
+      setEmail('');
+      setPassword(''); 
     } catch (error) {
       setErrorMessage(error.message);
     } finally {

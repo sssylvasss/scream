@@ -17,9 +17,7 @@ export const Home = () => {
 
 
   useEffect(() => {
-    console.log("User in Home:", user);
     if (!user) {
-      console.log("Redirecting to SignIn...");
       navigate("/signin");
     }
   }, [user, navigate]);
@@ -37,22 +35,19 @@ export const Home = () => {
         throw new Error("Failed to fetch screams");
       }
       const data = await response.json();
-      console.log("Fetched screams:", data);
       setScreamList(data);
 
     } catch (error) {
       console.error("Error fetching screams:", error.message);
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   };
 
- 
   useEffect(() => {
     if (user) {
       fetchScreams();
     } else {
-      console.log("User is not authenticated. Redirecting...");
       navigate("/signin"); 
     }
   }, [user]);
@@ -66,7 +61,7 @@ export const Home = () => {
   };
 
   const handleLogout = () => {
-    logout(); // Use logout function from AuthProvider
+    logout();
     navigate("/signin");
   };
   return (
