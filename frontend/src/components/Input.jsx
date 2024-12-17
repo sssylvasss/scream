@@ -14,7 +14,7 @@ export const Input = ({ onScreamPosted }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (containsBannedWords(userInput)) {
+    if (containsBannedWords(scream)) {
       alert("Your message contains inappropriate language.");
       return;
     }
