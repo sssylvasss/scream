@@ -18,7 +18,7 @@ export const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
   // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -33,6 +33,21 @@ export const SignUp = () => {
     .then(() => {
       setEmail("");
       setPassword("");
+      fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle successful login, e.g., save token, redirect, etc.
+        console.log('Login successful:', data);
+      })
+      .catch(error => {
+        console.error('Login error:', error);
+      });
       setLoading(false);
     })
     .catch(error => {
