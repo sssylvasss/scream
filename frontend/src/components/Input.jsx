@@ -3,10 +3,12 @@ import { StyledBtn, StyledForm, StyledInput } from "../style/GlobalStylComponent
 
 export const Input = ({ onScreamPosted }) => {
   const [scream, setScream] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
+  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('https://screamroom.onrender.com/screams', {
+    fetch(`${API_URL}/screams`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

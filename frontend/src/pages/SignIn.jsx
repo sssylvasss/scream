@@ -9,7 +9,9 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const API_URL = import.meta.env.VITE_API_URL;
+  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
+  
   const { login } = useAuth(); 
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ export const SignIn = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8080/signin', {
+      const response = await fetch(`${API_URL}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

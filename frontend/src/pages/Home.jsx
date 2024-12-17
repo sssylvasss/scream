@@ -14,7 +14,8 @@ export const Home = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-
+  const API_URL = import.meta.env.VITE_API_URL;
+  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
 
   useEffect(() => {
     if (!user) {
@@ -25,7 +26,7 @@ export const Home = () => {
   const fetchScreams = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://screamroom.onrender.com/screams", {
+      const response = await fetch(`${API_URL}/screams`, {
         headers: {
           Authorization: user.accessToken,
         },

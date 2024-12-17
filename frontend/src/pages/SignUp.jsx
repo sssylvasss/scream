@@ -16,11 +16,13 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const API_URL = import.meta.env.VITE_API_URL;
+  // const VITE_API_URL_LOCAL = import.meta.env.VITE_API_URL_LOCAL;
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    fetch('http://localhost:8080/signup', {
+    fetch(`${API_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
