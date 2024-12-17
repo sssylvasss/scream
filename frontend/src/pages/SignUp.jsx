@@ -66,6 +66,8 @@ export const SignUp = () => {
 
   return (
     <MainContainer>
+            {loading ?  
+              ( <Loader />) : (
       <InnerLoginDiv>
         <StyledHeaderText>Sign Up</StyledHeaderText>
         {errorMessage && <ErrorP>{errorMessage}</ErrorP>}
@@ -93,13 +95,14 @@ export const SignUp = () => {
             required
           />
           <StyledBtn type="submit" disabled={loading}>
-            {loading ? <Loader /> : 'Sign Up'}
+            Sign Up
           </StyledBtn>
         </StyledSignUpform>
         <SubHeadTitle>
           Already have an account? <StyledLink to="/signin">Sign In</StyledLink>
         </SubHeadTitle>
       </InnerLoginDiv>
+              )}
     </MainContainer>
   );
 };
