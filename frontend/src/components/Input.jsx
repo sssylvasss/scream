@@ -6,7 +6,7 @@ export const Input = ({ onScreamPosted }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8080/screams', {
+    fetch('https://screamroom.onrender.com/screams', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

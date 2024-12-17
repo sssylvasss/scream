@@ -25,7 +25,7 @@ export const Home = () => {
   const fetchScreams = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/screams", {
+      const response = await fetch("https://screamroom.onrender.com/screams", {
         headers: {
           Authorization: user.accessToken,
         },
