@@ -53,7 +53,12 @@ const authenticateUser = async (req, res, next) => {
 const port = process.env.PORT || 8080
 const app = express()
 
-app.use(cors())
+
+const corsOptions = {
+  origin: "https://screamroom.netlify.app",
+};
+
+app.use(cors(corsOptions));
 app.use(express.json())
 
 
