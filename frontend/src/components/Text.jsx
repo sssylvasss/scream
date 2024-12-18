@@ -1,7 +1,39 @@
 
 import React from "react";
-import { FloatingText } from "../style/GlobalStylComponents";
+import styled, { keyframes } from 'styled-components';
+const floatAnimation = keyframes`
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(20px, -30px);
+  }
+  50% {
+    transform: translate(-30px, 20px);
+  }
+  75% {
+    transform: translate(30px, 30px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+`;
 
+
+const FloatingText = styled.div`
+  position: absolute;
+  font-size: ${(props) => (props.fontSize ? `${props.fontSize / 1.5}px` : "16px")};
+  color: ${(props) => props.color  || "white"};
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  animation: ${floatAnimation} ${(props) => props.duration}s infinite ease-in-out;
+  top: ${(props) => props.startY}%;
+  left: ${(props) => props.startX}%;
+    @media (min-width: 768px) {
+      font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : "16px")};
+    }
+
+`;
 
 export const Text = ({ text, index }) => {
 
