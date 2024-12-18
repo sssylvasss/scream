@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { Input } from "../components/Input";
@@ -23,6 +24,7 @@ export const Home = () => {
     }
   }, [user, navigate]);
 
+  // Fetch initial screams
   const fetchScreams = async () => {
     setLoading(true);
     try {
@@ -31,27 +33,37 @@ export const Home = () => {
           Authorization: user.accessToken,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to fetch screams");
       }
       const data = await response.json();
       setScreamList(data);
-
     } catch (error) {
       console.error("Error fetching screams:", error.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (user) {
       fetchScreams();
-    } else {
-      navigate("/signin"); 
     }
   }, [user]);
+
+  // Socket.IO for real-time updates
+  useEffect(() => {
+    const socket = io(API_URL);
+
+    socket.on("broadcast-scream", (newScream) => {
+      setScreamList((prevScreams) => [newScream, ...prevScreams]);
+    });
+
+    return () => {
+      socket.disconnect(); // Cleanup on unmount
+    };
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -65,19 +77,21 @@ export const Home = () => {
     logout();
     navigate("/signin");
   };
+
   return (
     <MainContainer>
-{loading ? ( 
-      <Loader />) : (
-      <>
-        <FalafelMenu openModal={openModal}/>
-        <InnerContainer>
-          {screamList.map((scream, index) => (
-            <Text key={index} text={scream.text} index={index} />
-          ))}
-        </InnerContainer>
-        <Input onScreamPosted={fetchScreams} />
-      </>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <FalafelMenu openModal={openModal} />
+          <InnerContainer>
+            {screamList.map((scream, index) => (
+              <Text key={index} text={scream.text} index={index} />
+            ))}
+          </InnerContainer>
+          <Input onScreamPosted={fetchScreams} />
+        </>
       )}
       {isModalOpen && (
         <Modal onClose={closeModal}>

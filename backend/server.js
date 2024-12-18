@@ -3,12 +3,16 @@ import cors from "cors";
 import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
+import http from "http";
+import { Server } from "socket.io";
 import { bannedWords } from "./config/bannedWords.js";
 
+// Database connection
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
-mongoose.connect(mongoUrl);
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = Promise;
 
+// Models
 const Scream = mongoose.model("Scream", {
   text: String,
   createdAt: {
@@ -44,68 +48,106 @@ const User = mongoose.model("User", {
   },
 });
 
+// Middleware
 const authenticateUser = async (req, res, next) => {
-  try {
-    const token = req.header("Authorization");
-    if (!token) {
-      return res.status(403).json({ message: "Authorization header missing." });
-    }
+  const token = req.header("Authorization");
+  if (!token) {
+    return res.status(403).json({ message: "Authorization header missing." });
+  }
 
+  try {
     const user = await User.findOne({ accessToken: token });
-    if (user) {
-      req.user = user;
-      next();
-    } else {
+    if (!user) {
       return res.status(403).json({ message: "Invalid or expired token." });
     }
+    req.user = user;
+    next();
   } catch (error) {
+    console.error("Authentication error:", error);
     res.status(500).json({ message: "Internal server error." });
   }
 };
 
-
-
-const port = process.env.PORT || 8080;
-const app = express();
-
-const corsOptions = {
-  origin: ["http://localhost:3000", "https://screamroom.netlify.app"], // Allow both local and production frontend
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+const containsBannedWords = (text) => {
+  const lowerText = text.toLowerCase();
+  return bannedWords.some((word) => lowerText.includes(word));
 };
 
-app.use(cors(corsOptions));
+// App and Server setup
+const app = express();
+const server = http.createServer(app);
+const port = process.env.PORT || 8080;
+
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:3000", "https://screamroom.netlify.app"],
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("new-scream", (data) => {
+    io.emit("broadcast-scream", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
+  });
+});
+
+// CORS and JSON Parsing
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://screamroom.netlify.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 
+// Routes
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
 app.get("/screams", authenticateUser, async (req, res) => {
-  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).populate("user", "name email").exec();
-  res.json(screams);
+  try {
+    const screams = await Scream.find()
+      .sort({ createdAt: "desc" })
+      .populate("user", "name email")
+      .exec();
+    res.json(screams);
+  } catch (error) {
+    console.error("Error fetching screams:", error);
+    res.status(500).json({ message: "Failed to fetch screams." });
+  }
 });
 
 app.post("/signin", async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    res.json({ userId: user._id, accessToken: user.accessToken });
-  } else {
-    res.status(400).json({ message: "Invalid email or password" });
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user && bcrypt.compareSync(password, user.password)) {
+      res.json({ userId: user._id, accessToken: user.accessToken });
+    } else {
+      res.status(400).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    console.error("Signin error:", error);
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 
 app.post("/signup", async (req, res) => {
+  const { name, email, password } = req.body;
   try {
-    const { name, email, password } = req.body;
-
-    const existingName = await User.findOne({ name });
-    if (existingName) {
+    if (await User.findOne({ name })) {
       return res.status(400).json({ message: "Name already exists" });
     }
 
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail) {
+    if (await User.findOne({ email })) {
       return res.status(400).json({ message: "Email already exists" });
     }
 
@@ -116,47 +158,42 @@ app.post("/signup", async (req, res) => {
     });
 
     await user.save();
-
-    return res.status(201).json({ message: "Signup successful" });
-  } catch (err) {
-    console.error("Signup error:", err);
-    return res.status(500).json({ message: "Internal server error" });
+    res.status(201).json({ message: "Signup successful" });
+  } catch (error) {
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 
-const containsBannedWords = (text) => {
-  const lowerText = text.toLowerCase();
-  return bannedWords.some((word) => lowerText.includes(word));
-};
-
 app.post("/screams", authenticateUser, async (req, res) => {
   const { text } = req.body;
-
-  if (!text || text.trim() === "") {
-    return res.status(400).json({ message: "Text is required to create a scream" });
+  if (!text.trim()) {
+    return res.status(400).json({ message: "Text is required" });
   }
 
   if (containsBannedWords(text)) {
-    return res.status(400).json({ message: "Your message contains inappropriate language." });
+    return res.status(400).json({ message: "Inappropriate language detected" });
   }
 
   const scream = new Scream({ text, user: req.user._id });
 
   try {
     const savedScream = await scream.save();
+    io.emit("broadcast-scream", savedScream);
     res.status(201).json(savedScream);
-  } catch (err) {
-    res.status(400).json({ message: "Could not save scream to the database", error: err.errors });
+  } catch (error) {
+    console.error("Error saving scream:", error);
+    res.status(400).json({ message: "Could not save scream", error: error.errors });
   }
 });
 
-
+// Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send("Something broke!");
 });
 
 // Start the server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
