@@ -86,8 +86,8 @@ export const Home = () => {
         <>
           <FalafelMenu openModal={openModal} />
           <InnerContainer>
-            {screamList.map((scream, index) => (
-              <Text key={index} text={scream.text} index={index} />
+          {screamList.map((scream, index) => (
+              <Text key={index} text={scream.text} index={index} totalCount={screamList.length} />
             ))}
           </InnerContainer>
           <Input onScreamPosted={fetchScreams} />

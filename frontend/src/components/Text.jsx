@@ -1,6 +1,6 @@
-
 import React from "react";
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
+
 const floatAnimation = keyframes`
   0% {
     transform: translate(0, 0);
@@ -19,39 +19,42 @@ const floatAnimation = keyframes`
   }
 `;
 
-
 const FloatingText = styled.div`
   position: absolute;
-  font-size: ${(props) => (props.fontSize ? `${props.fontSize / 1.5}px` : "16px")};
-  color: ${(props) => props.color  || "white"};
+  font-size: ${(props) => (props.$fontSize ? `${props.$fontSize / 1.5}px` : "16px")};
+  color: ${(props) => props.$color || "white"};
   font-weight: bold;
   font-family: "Courier New", Courier, monospace;
-  animation: ${floatAnimation} ${(props) => props.duration}s infinite ease-in-out;
-  top: ${(props) => props.startY}%;
-  left: ${(props) => props.startX}%;
-    @media (min-width: 768px) {
-      font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : "16px")};
-    }
+  animation: ${floatAnimation} ${(props) => props.$duration}s infinite ease-in-out;
+  top: ${(props) => props.$startY}%;
+  left: ${(props) => props.$startX}%;
+  z-index: ${(props) => props.$zIndex};
 
+  @media (min-width: 768px) {
+    font-size: ${(props) => (props.$fontSize ? `${props.$fontSize}px` : "16px")};
+  }
 `;
 
-export const Text = ({ text, index }) => {
-
-const fontSize = 70 - (index * 2); 
-let fontColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "white"];
-const randomColor = fontColors[Math.floor(Math.random() * fontColors.length)];
+export const Text = ({ text, index, totalCount }) => {
+  const fontSize = 70 - index * 2;
+  const fontColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "white"];
+  const randomColor = fontColors[Math.floor(Math.random() * fontColors.length)];
 
   const randomStartX = Math.random() * 80; // Start position (left) between 0-80% of screen
   const randomStartY = Math.random() * 80; // Start position (top) between 0-80% of screen
   const randomDuration = 5 + Math.random() * 5; // Animation duration between 5-10 seconds
 
+  // Calculate z-index: Newest scream gets the highest z-index
+  const zIndex = totalCount - index; // Higher z-index for newer screams
+
   return (
     <FloatingText
-      color={randomColor}
-      fontSize={fontSize}
-      startX={randomStartX}
-      startY={randomStartY}
-      duration={randomDuration}
+      $color={randomColor}
+      $fontSize={fontSize}
+      $startX={randomStartX}
+      $startY={randomStartY}
+      $duration={randomDuration}
+      $zIndex={zIndex} // Use $ prefix to prevent React warnings
     >
       {text}
     </FloatingText>
