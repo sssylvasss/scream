@@ -4,13 +4,13 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { bannedWords } from "./config/bannedWords.js";
+
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
 mongoose.connect(mongoUrl);
 mongoose.Promise = Promise;
 
 const Scream = mongoose.model("Scream", {
   text: String,
-  collor: String,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -45,21 +45,33 @@ const User = mongoose.model("User", {
 });
 
 const authenticateUser = async (req, res, next) => {
-  const token = req.header("Authorization");
-  const user = await User.findOne({ accessToken: token });
-  if (user) {
-    req.user = user;
-    next();
-  } else {
-    res.status(403).json({ message: "You need to be logged in to see this" });
+  try {
+    const token = req.header("Authorization");
+    if (!token) {
+      return res.status(403).json({ message: "Authorization header missing." });
+    }
+
+    const user = await User.findOne({ accessToken: token });
+    if (user) {
+      req.user = user;
+      next();
+    } else {
+      return res.status(403).json({ message: "Invalid or expired token." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
   }
 };
+
+
 
 const port = process.env.PORT || 8080;
 const app = express();
 
 const corsOptions = {
-  origin: "https://screamroom.netlify.app",
+  origin: ["http://localhost:3000", "https://screamroom.netlify.app"], // Allow both local and production frontend
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -70,7 +82,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/screams", authenticateUser, async (req, res) => {
-  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).exec();
+  const screams = await Scream.find().sort({ createdAt: "desc" }).limit(20).populate("user", "name email").exec();
   res.json(screams);
 });
 
@@ -117,15 +129,18 @@ const containsBannedWords = (text) => {
   return bannedWords.some((word) => lowerText.includes(word));
 };
 
-app.post("/screams", async (req, res) => {
-  const { text, user } = req.body;
+app.post("/screams", authenticateUser, async (req, res) => {
+  const { text } = req.body;
+
   if (!text || text.trim() === "") {
     return res.status(400).json({ message: "Text is required to create a scream" });
   }
+
   if (containsBannedWords(text)) {
     return res.status(400).json({ message: "Your message contains inappropriate language." });
   }
-  const scream = new Scream({ text, user });
+
+  const scream = new Scream({ text, user: req.user._id });
 
   try {
     const savedScream = await scream.save();
@@ -134,6 +149,7 @@ app.post("/screams", async (req, res) => {
     res.status(400).json({ message: "Could not save scream to the database", error: err.errors });
   }
 });
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
