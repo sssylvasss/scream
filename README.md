@@ -11,17 +11,16 @@ This is a **mono-repo** containing both the **frontend** and **backend** of the 
 ---
 
 ## 📋 **Project Overview**
-This project explores full-stack web development concepts and includes:
+This project is built to explore full-stack web development concepts and includes:
 - A **React** frontend for users to interact with.
-- A **Node.js/Express** backend for authentication, data handling, and moderation.
-- A **MongoDB Atlas** database to persist user accounts and screams.
+- A **Node.js/Express** backend to handle data storage and authentication.
+- A **MongoDB Atlas** database to persist messages.
 
-### User Features:
+Users can:
 - Sign up and sign in to access the app.
-- Post messages (screams) with **content moderation**.
-- View screams posted by others.
-- Automatic logout functionality.
-- Responsive and user-friendly UI.
+- Post messages (screams) with moderation filters for offensive content.
+- View messages posted by others.
+- Log out when done.
 
 ---
 
@@ -39,40 +38,13 @@ This project explores full-stack web development concepts and includes:
 - Bcrypt.js (password hashing)
 - JWT/Access tokens (for authentication)
 - CORS middleware
+- dotenv (for environment variables)
+- socket.io (for real-time communication)
 
 ### **Tools**
 - **Render** (Backend deployment)
 - **Netlify** (Frontend deployment)
 - MongoDB Compass (local database exploration)
-
----
-
-## 📂 **Project Structure**
-
-```plaintext
-final-project/
-│
-├── backend/        # Backend code
-│   ├── server.js   # Main backend entry point
-│   ├── models/     # Mongoose models (User, Scream)
-│   ├── routes/     # API endpoint routes
-│   ├── config/     # Configuration files
-│   │   └── bannedWords.js # List of inappropriate words
-│   ├── .env        # Environment variables
-│
-├── frontend/       # Frontend code
-│   ├── src/
-│   │   ├── components/   # React components
-│   │   ├── pages/        # React pages
-│   │   ├── context/      # Context API for auth
-│   │   ├── style/        # Styled-components
-│   │   └── utils/        # Helper functions
-│   ├── public/           # Static assets
-│   ├── index.html        # HTML entry point
-│   └── vite.config.js    # Vite configuration
-│
-└── package.json    # Root-level scripts
-```
 
 ---
 
@@ -136,8 +108,12 @@ npm run dev
 - Offensive content moderation.
 - Responsive and dynamic UI.
 - Persistent data storage with MongoDB Atlas.
+- Real-time communication with socket.io.
 
 ---
+
+## 📡 Real-time Communication with socket.io
+This project uses socket.io for real-time communication. When a user posts a new scream, it is broadcasted to all connected clients in real-time.
 
 ## 🛠️ **Scripts**
 
