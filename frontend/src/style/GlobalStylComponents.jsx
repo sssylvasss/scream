@@ -79,6 +79,7 @@ export const StyledInputSignUp = styled.input`
 `;
 
 export const StyledForm = styled.form`
+  z-index: 300;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -94,7 +95,7 @@ export const StyledForm = styled.form`
 `;
 
 export const StyledBtn = styled.button`
-  z-index: 300;
+
   height: 40px;
   padding: 0 20px;
   border: 2px solid white;
