@@ -94,6 +94,7 @@ export const StyledForm = styled.form`
 `;
 
 export const StyledBtn = styled.button`
+  z-index: 300;
   height: 40px;
   padding: 0 20px;
   border: 2px solid white;
