@@ -142,6 +142,7 @@ export const MenueDiv = styled.div`
 `;
 
 export const ModalMainDiv = styled.div`
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
