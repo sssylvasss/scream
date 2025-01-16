@@ -30,7 +30,7 @@ export const Home = () => {
     try {
       const response = await fetch(`${API_URL}/screams`, {
         headers: {
-          Authorization: user.accessToken,
+          Authorization: `Bearer ${user.accessToken}`, // Corrected Authorization header
         },
       });
 
@@ -54,16 +54,22 @@ export const Home = () => {
 
   // Socket.IO for real-time updates
   useEffect(() => {
-    const socket = io(API_URL);
+    if (user) {
+      const socket = io(API_URL, {
+        auth: {
+          token: user.accessToken, // Corrected Socket.IO connection
+        },
+      });
 
-    socket.on("broadcast-scream", (newScream) => {
-      setScreamList((prevScreams) => [newScream, ...prevScreams]);
-    });
+      socket.on("broadcast-scream", (newScream) => {
+        setScreamList((prevScreams) => [newScream, ...prevScreams]);
+      });
 
-    return () => {
-      socket.disconnect(); // Cleanup on unmount
-    };
-  }, []);
+      return () => {
+        socket.disconnect(); // Cleanup on unmount
+      };
+    }
+  }, [user]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -86,7 +92,7 @@ export const Home = () => {
         <>
           <FalafelMenu openModal={openModal} />
           <InnerContainer>
-          {screamList.map((scream, index) => (
+            {screamList.map((scream, index) => (
               <Text key={index} text={scream.text} index={index} totalCount={screamList.length} />
             ))}
           </InnerContainer>

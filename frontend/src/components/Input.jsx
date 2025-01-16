@@ -32,7 +32,7 @@ export const Input = ({ onScreamPosted }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: user.accessToken,
+          Authorization: `Bearer ${user.accessToken}`, // Ensure the Authorization header is correct
         },
         body: JSON.stringify({ text: scream }),
       });
