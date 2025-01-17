@@ -20,7 +20,7 @@ export const SignIn = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/users/signin`, {
+      const response = await fetch(`${API_URL}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

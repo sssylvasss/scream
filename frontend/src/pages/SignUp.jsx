@@ -22,7 +22,7 @@ export const SignUp = () => {
 
   
     try {
-      const signupResponse = await fetch(`${API_URL}/users/signup`, {
+      const signupResponse = await fetch(`${API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -36,7 +36,7 @@ export const SignUp = () => {
   
       console.log("Signup successful:", signupData);
   
-      const loginResponse = await fetch(`${API_URL}/users/signin`, {
+      const loginResponse = await fetch(`${API_URL}/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
