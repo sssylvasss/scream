@@ -6,10 +6,28 @@ import bcrypt from "bcryptjs";
 import http from "http";
 import { Server } from "socket.io";
 import { bannedWords } from "./config/bannedWords.js";
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Database connection
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+// Expected format: mongodb+srv://dbUser:<password>@cluster0.l26jke1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+const mongoUrl = process.env.MONGO_URL;
+if (!mongoUrl) {
+  console.error('MONGO_URL is not defined in environment variables');
+  process.exit(1);
+}
+
+try {
+  console.log('Attempting to connect to MongoDB...');
+  await mongoose.connect(mongoUrl);
+  console.log('Successfully connected to MongoDB Atlas!');
+} catch (error) {
+  console.error('Error connecting to MongoDB:', error.message);
+  process.exit(1);
+}
+
 mongoose.Promise = Promise;
 
 // Models
