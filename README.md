@@ -135,5 +135,3 @@ npm start
 ---
 
 ### **Enjoy screaming! 🔥**
-
-Let me know if you want any further edits! 🚀
