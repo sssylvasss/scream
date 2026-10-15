@@ -52,8 +52,8 @@ Users can:
 
 ### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd final-project
+git clone https://github.com/sssylvasss/scream.git
+cd scream
 ```
 
 ### 2. **Install Dependencies**
